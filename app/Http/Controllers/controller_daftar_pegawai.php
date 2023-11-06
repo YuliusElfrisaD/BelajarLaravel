@@ -14,7 +14,7 @@ class controller_daftar_pegawai extends Controller
      */
     public function index()
     {
-        $pegawai = DB::table('gaji')->get();
+        $pegawai = Pegawai::table('gaji')->get();
 
         return response()->json($pegawai);
     }
