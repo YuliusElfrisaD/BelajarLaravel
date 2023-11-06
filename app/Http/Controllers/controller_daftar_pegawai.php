@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Helpers\ApiFormatter;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
+use App\daftar_pegawai;
+use App\Http\Resources\GajiResource;
 
 class controller_daftar_pegawai extends Controller
 {
@@ -14,9 +17,14 @@ class controller_daftar_pegawai extends Controller
      */
     public function index()
     {
-        $pegawai = Pegawai::table('gaji')->get();
-
-        return response()->json($pegawai);
+        // $gaji = daftar_pegawai::all();
+        // $gaji = GajiResource::collection(daftar_pegawai::all);
+        $data = DB::table('gaji')->get();
+        if ($data) {
+            return ApiFormatter::createApi(200, 'Success', $data);
+        } else {
+            return ApiFormatter::createApi(400, 'Failed');
+        }
     }
 
     /**
@@ -48,7 +56,7 @@ class controller_daftar_pegawai extends Controller
      */
     public function show($id)
     {
-        //
+        return new GajiResource(daftar_pegawai::find($id));
     }
 
     /**
